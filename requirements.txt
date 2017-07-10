@@ -1,0 +1,12 @@
+antlr4-python3-runtime==4.7
+typing
+jinja2
+click
+path.py
+watchdog
+livereload
+pyyaml
+pytest
+coverage
+pytest-cov
+six
