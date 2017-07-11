@@ -1,5 +1,5 @@
 {# Copyright (c) Pelagicore AB 2016 #}
-{% import "qtcpp.j2" as cpp %}
+{% import "qface/qtcpp.j2" as cpp %}
 {{ cpp.preserved(prefix="##")}}
 
 TEMPLATE = lib
