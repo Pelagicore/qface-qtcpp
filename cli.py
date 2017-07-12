@@ -16,11 +16,10 @@ from livereload import Server, shell
 
 here = os.path.dirname(__file__)
 
-logging.config.dictConfig(yaml.load(open(os.path.join(here, 'log.yaml'))))
-logger = logging.getLogger(__name__)
-
-
-os.environ['PYTHONPATH'] = os.getcwd()
+logging.basicConfig()
+with open('log.yaml', 'r') as fp:
+    logging.config.dictConfig(yaml.load(fp))
+log = logging.getLogger(__name__)
 
 
 def sh(cmd, all=False, **kwargs):
@@ -167,13 +166,17 @@ def uninstall():
 
 @cli.command()
 def upload():
+    sh('twine upload dist/*')
+    Path('build').rmtree_p()
+
+@cli.command()
+def pack():
     Path('build').rmtree_p()
     dist = Path('dist')
     dist.rmtree_p()
     dist.makedirs_p()
     sh('python3 setup.py bdist_wheel')
-    sh('twine upload dist/*')
-    Path('build').rmtree_p()
+    sh('unzip -l dist/*.whl')
 
 
 @cli.command()
