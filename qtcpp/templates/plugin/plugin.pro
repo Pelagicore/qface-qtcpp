@@ -12,14 +12,14 @@ uri = {{module}}
 
 HEADERS += \
 {% for interface in module.interfaces %}
-    qml{{interface|lower}}.h \
+    {{interface|lower}}.h \
 {% endfor %}
     plugin.h
 
 
 SOURCES += \
 {% for interface in module.interfaces %}
-    qml{{interface|lower}}.cpp \
+    {{interface|lower}}.cpp \
 {% endfor %}
     plugin.cpp
 

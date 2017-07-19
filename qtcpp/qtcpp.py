@@ -23,6 +23,7 @@ log = logging.getLogger(__name__)
 
 def run(src, dst):
     log.debug('run {0} {1}'.format(src, dst))
+    project = Path(dst).name
     system = FileSystem.parse(src)
     generator = Generator(search_path=here / 'templates')
     generator.register_filter('returnType', Filters.returnType)
@@ -30,40 +31,52 @@ def run(src, dst):
     generator.register_filter('defaultValue', Filters.defaultValue)
     generator.register_filter('parameters', Filters.parameters)
     generator.register_filter('parse_doc', parse_doc)
-    ctx = {'dst': dst}
+    generator.register_filter('upper_first', Filters.upper_first)
+    generator.register_filter('identifier', Filters.identifier)
+    generator.register_filter('path', Filters.path)
+    ctx = {
+        'dst': dst,
+        'system': system,
+        'project': project
+    }
+
+    dst = generator.apply('{{dst}}', ctx)
+    generator.destination = dst
+    generator.write('{{project}}.pro', 'project.pro', ctx)
+    generator.write('.qmake.conf', 'qmake.conf', ctx)
+    generator.write('CMakeLists.txt', 'CMakeLists.txt', ctx)
     for module in system.modules:
         log.debug('generate code for module %s', module)
         ctx.update({'module': module})
-        dst = generator.apply('{{dst}}/{{module|lower|replace(".", "-")}}', ctx)
+        dst = generator.apply('{{dst}}/{{module|identifier}}', ctx)
         generator.destination = dst
-        generator.write('.qmake.conf', 'qmake.conf', ctx)
-        generator.write('{{module|lower|replace(".", "-")}}.pro', 'plugin.pro', ctx, preserve=True)
-        generator.write('CMakeLists.txt', 'CMakeLists.txt', ctx)
-        generator.write('plugin.cpp', 'plugin.cpp', ctx, preserve=True)
-        generator.write('plugin.h', 'plugin.h', ctx, preserve=True)
-        generator.write('qmldir', 'qmldir', ctx, preserve=True)
-        generator.write('generated/generated.pri', 'generated/generated.pri', ctx)
-        generator.write('generated/qml{{module.module_name|lower}}module.h', 'generated/module.h', ctx)
-        generator.write('generated/qml{{module.module_name|lower}}module.cpp', 'generated/module.cpp', ctx)
-        generator.write('generated/qmlvariantmodel.h', 'generated/variantmodel.h', ctx)
-        generator.write('generated/qmlvariantmodel.cpp', 'generated/variantmodel.cpp', ctx)
-        generator.write('docs/plugin.qdocconf', 'docs/plugin.qdocconf', ctx)
-        generator.write('docs/plugin-project.qdocconf', 'docs/plugin-project.qdocconf', ctx)
-        generator.write('docs/docs.pri', 'docs/docs.pri', ctx)
+        generator.write('{{module|identifier}}.pro', 'plugin/plugin.pro', ctx, preserve=True)
+        generator.write('CMakeLists.txt', 'plugin/CMakeLists.txt', ctx)
+        generator.write('plugin.cpp', 'plugin/plugin.cpp', ctx, preserve=True)
+        generator.write('plugin.h', 'plugin/plugin.h', ctx, preserve=True)
+        generator.write('qmldir', 'plugin/qmldir', ctx, preserve=True)
+        generator.write('generated/generated.pri', 'plugin/generated/generated.pri', ctx)
+        generator.write('generated/{{module.module_name|lower}}module.h', 'plugin/generated/module.h', ctx)
+        generator.write('generated/{{module.module_name|lower}}module.cpp', 'plugin/generated/module.cpp', ctx)
+        generator.write('generated/variantmodel.h', 'plugin/generated/variantmodel.h', ctx)
+        generator.write('generated/variantmodel.cpp', 'plugin/generated/variantmodel.cpp', ctx)
+        generator.write('docs/plugin.qdocconf', 'plugin/docs/plugin.qdocconf', ctx)
+        generator.write('docs/plugin-project.qdocconf', 'plugin/docs/plugin-project.qdocconf', ctx)
+        generator.write('docs/docs.pri', 'plugin/docs/docs.pri', ctx)
         for interface in module.interfaces:
             log.debug('generate code for interface %s', interface)
             ctx.update({'interface': interface})
-            generator.write('qml{{interface|lower}}.h', 'interface.h', ctx, preserve=True)
-            generator.write('qml{{interface|lower}}.cpp', 'interface.cpp', ctx, preserve=True)
-            generator.write('generated/qmlabstract{{interface|lower}}.h', 'generated/abstractinterface.h', ctx)
-            generator.write('generated/qmlabstract{{interface|lower}}.cpp', 'generated/abstractinterface.cpp', ctx)
+            generator.write('{{interface|lower}}.h', 'plugin/interface.h', ctx, preserve=True)
+            generator.write('{{interface|lower}}.cpp', 'plugin/interface.cpp', ctx, preserve=True)
+            generator.write('generated/abstract{{interface|lower}}.h', 'plugin/generated/abstractinterface.h', ctx)
+            generator.write('generated/abstract{{interface|lower}}.cpp', 'plugin/generated/abstractinterface.cpp', ctx)
         for struct in module.structs:
             log.debug('generate code for struct %s', struct)
             ctx.update({'struct': struct})
-            generator.write('generated/qml{{struct|lower}}.h', 'generated/struct.h', ctx)
-            generator.write('generated/qml{{struct|lower}}.cpp', 'generated/struct.cpp', ctx)
-            generator.write('generated/qml{{struct|lower}}model.h', 'generated/structmodel.h', ctx)
-            generator.write('generated/qml{{struct|lower}}model.cpp', 'generated/structmodel.cpp', ctx)
+            generator.write('generated/{{struct|lower}}.h', 'plugin/generated/struct.h', ctx)
+            generator.write('generated/{{struct|lower}}.cpp', 'plugin/generated/struct.cpp', ctx)
+            generator.write('generated/{{struct|lower}}model.h', 'plugin/generated/structmodel.h', ctx)
+            generator.write('generated/{{struct|lower}}model.cpp', 'plugin/generated/structmodel.cpp', ctx)
 
 
 @click.command()

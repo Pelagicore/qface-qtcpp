@@ -1,0 +1,15 @@
+module org.example 1.0
+
+interface Counter {
+    readonly int count;
+    void increment();
+    void decrement();
+    State state;
+}
+
+enum State {
+    Null,
+    Loading,
+    Ready,
+    Error
+}
