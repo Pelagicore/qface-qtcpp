@@ -22,7 +22,7 @@ setup(
         '': ['*.h', '*.cpp', '*.pro', '*.pri', '*.qml', '*.js', '*.j2', '*.qdocconf', '*.conf', 'CMakeLists.txt', 'qmldir']
     },
     install_requires=[
-        'qface>=1.3.1',
+        'qface>=1.7',
     ],
     entry_points={
         'console_scripts': [
