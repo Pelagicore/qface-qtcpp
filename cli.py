@@ -172,12 +172,16 @@ def upload():
 @cli.command()
 def pack():
     Path('build').rmtree_p()
-    dist = Path('dist')
-    dist.rmtree_p()
-    dist.makedirs_p()
+    Path('dist').rmtree_p()
     sh('python3 setup.py bdist_wheel')
     sh('unzip -l dist/*.whl')
 
+
+@cli.command()
+def clean():
+    Path('build').rmtree_p()
+    Path('dist').rmtree_p()
+    Path('qface_qtcpp.egg-info').rmtree_p()
 
 @cli.command()
 def docs_serve():
