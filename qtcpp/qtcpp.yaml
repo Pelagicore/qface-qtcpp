@@ -20,12 +20,19 @@ project:
             'docs/plugin.qdocconf': 'plugin/docs/plugin.qdocconf'
             'docs/plugin-project.qdocconf': 'plugin/docs/plugin-project.qdocconf'
             'docs/docs.pri': 'plugin/docs/docs.pri'
+        preserve:
+            - '{{module|identifier}}.pro'
+            - 'plugin.cpp'
+            - 'plugin.h'
     interface:
         documents:
             '{{interface|lower}}.h': 'plugin/interface.h'
             '{{interface|lower}}.cpp': 'plugin/interface.cpp'
             'generated/abstract{{interface|lower}}.h': 'plugin/generated/abstractinterface.h'
             'generated/abstract{{interface|lower}}.cpp': 'plugin/generated/abstractinterface.cpp'
+        preserve:
+            - '{{interface|lower}}.h'
+            - '{{interface|lower}}.cpp'
     struct:
         documents:
             'generated/{{struct|lower}}.h': 'plugin/generated/struct.h'
