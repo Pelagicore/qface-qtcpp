@@ -6,12 +6,7 @@
 #pragma once
 
 #include <QtCore>
-
-#include "variantmodel.h"
-{% for struct in module.structs %}
-#include "{{struct|lower}}.h"
-#include "{{struct|lower}}model.h"
-{% endfor %}
+{{ module|header_dependencies}}
 
 class {{class}} : public QObject {
     Q_OBJECT

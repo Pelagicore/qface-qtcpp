@@ -7,7 +7,8 @@
 
 #include <QtCore>
 
-#include "{{module.module_name|lower}}module.h"
+{{ interface|header_dependencies }}
+
 
 class {{class}} : public QObject
 {

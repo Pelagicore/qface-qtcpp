@@ -4,22 +4,18 @@
 {% set module_name = module.module_name|upper_first %}
 {% set class = '{0}Module'.format(module_name) %}
 
-
 #include "{{class|lower}}.h"
-
 #include <QtQml>
+{{ module|header_dependencies}}
+
 
 /*!
    \qmlmodule {{module}} 1.0
 {% with doc = module.comment|parse_doc %}
-
    {{doc.brief}}
-
-
    {{doc.description}}
 {% endwith %}
  */
-
 
 /*!
    \qmltype {{module_name}}Module

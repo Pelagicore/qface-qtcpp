@@ -7,6 +7,8 @@
 
 #include <QtQml>
 
+{{ interface|source_dependencies }}
+
 
 /*!
    \qmltype {{interface}}
