@@ -7,10 +7,7 @@ project:
     module:
         destination: '{{dst}}/{{module|identifier}}'
         documents:
-            '{{module|identifier}}.pro': 'plugin/plugin.pro'
             'CMakeLists.txt': 'plugin/CMakeLists.txt'
-            'plugin.cpp': 'plugin/plugin.cpp'
-            'plugin.h': 'plugin/plugin.h'
             'qmldir': 'plugin/qmldir'
             'generated/generated.pri': 'plugin/generated/generated.pri'
             'generated/{{module.module_name|lower}}module.h': 'plugin/generated/module.h'
@@ -21,18 +18,16 @@ project:
             'docs/plugin-project.qdocconf': 'plugin/docs/plugin-project.qdocconf'
             'docs/docs.pri': 'plugin/docs/docs.pri'
         preserve:
-            - '{{module|identifier}}.pro'
-            - 'plugin.cpp'
-            - 'plugin.h'
+            '{{module|identifier}}.pro': 'plugin/plugin.pro'
+            'plugin.cpp': 'plugin/plugin.cpp'
+            'plugin.h': 'plugin/plugin.h'
     interface:
         documents:
-            '{{interface|lower}}.h': 'plugin/interface.h'
-            '{{interface|lower}}.cpp': 'plugin/interface.cpp'
             'generated/abstract{{interface|lower}}.h': 'plugin/generated/abstractinterface.h'
             'generated/abstract{{interface|lower}}.cpp': 'plugin/generated/abstractinterface.cpp'
         preserve:
-            - '{{interface|lower}}.h'
-            - '{{interface|lower}}.cpp'
+            '{{interface|lower}}.h': 'plugin/interface.h'
+            '{{interface|lower}}.cpp': 'plugin/interface.cpp'
     struct:
         documents:
             'generated/{{struct|lower}}.h': 'plugin/generated/struct.h'

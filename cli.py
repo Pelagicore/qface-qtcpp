@@ -7,18 +7,16 @@ from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 from path import Path
 import time
-import os
-import yaml
 import logging
-import logging.config
 from livereload import Server, shell
 
+from qface.contrib.logging import setup_log
 
-here = os.path.dirname(__file__)
 
-logging.basicConfig()
-with open('log.yaml', 'r') as fp:
-    logging.config.dictConfig(yaml.load(fp))
+here = Path(__file__).dirname()
+
+setup_log(path=here / 'logging.yml')
+
 log = logging.getLogger(__name__)
 
 
