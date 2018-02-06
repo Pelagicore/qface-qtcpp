@@ -10,8 +10,8 @@ project:
             'CMakeLists.txt': 'plugin/CMakeLists.txt'
             'qmldir': 'plugin/qmldir'
             'generated/generated.pri': 'plugin/generated/generated.pri'
-            'generated/{{module.module_name|lower}}module.h': 'plugin/generated/module.h'
-            'generated/{{module.module_name|lower}}module.cpp': 'plugin/generated/module.cpp'
+            'generated/{{module|identifier}}_gen.h': 'plugin/generated/module.h'
+            'generated/{{module|identifier}}_gen.cpp': 'plugin/generated/module.cpp'
             'generated/variantmodel.h': 'plugin/generated/variantmodel.h'
             'generated/variantmodel.cpp': 'plugin/generated/variantmodel.cpp'
             'docs/plugin.qdocconf': 'plugin/docs/plugin.qdocconf'
@@ -22,15 +22,6 @@ project:
             'plugin.cpp': 'plugin/plugin.cpp'
             'plugin.h': 'plugin/plugin.h'
     interface:
-        documents:
-            'generated/abstract{{interface|lower}}.h': 'plugin/generated/abstractinterface.h'
-            'generated/abstract{{interface|lower}}.cpp': 'plugin/generated/abstractinterface.cpp'
         preserve:
             '{{interface|lower}}.h': 'plugin/interface.h'
             '{{interface|lower}}.cpp': 'plugin/interface.cpp'
-    struct:
-        documents:
-            'generated/{{struct|lower}}.h': 'plugin/generated/struct.h'
-            'generated/{{struct|lower}}.cpp': 'plugin/generated/struct.cpp'
-            'generated/{{struct|lower}}model.h': 'plugin/generated/structmodel.h'
-            'generated/{{struct|lower}}model.cpp': 'plugin/generated/structmodel.cpp'

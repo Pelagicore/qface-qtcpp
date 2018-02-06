@@ -48,10 +48,12 @@ QHash<int, QByteArray> {{class}}::roleNames() const
 
 void {{class}}::insert(int row, const QVariant &entry)
 {
-    if (row < 0)
+    if (row < 0) {
         row = 0;
-    if (row >= m_data.count())
+    }
+    if (row >= m_data.count()) {
         row = m_data.count();
+    }
 
     beginInsertRows(QModelIndex(), row, row);
     m_data.insert(row, entry);

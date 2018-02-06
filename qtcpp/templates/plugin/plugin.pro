@@ -5,23 +5,19 @@
 TEMPLATE = lib
 QT += qml quick
 CONFIG += qt plugin c++11
-TARGET = $$qtLibraryTarget({{module|lower}})
+TARGET = $$qtLibraryTarget({{module|identifier}})
 
 uri = {{module}}
 
 
-HEADERS += \
 {% for interface in module.interfaces %}
-    {{interface|lower}}.h \
-{% endfor %}
-    plugin.h
+HEADERS += {{interface|lower}}.h
+SOURCES += {{interface|lower}}.cpp
 
-
-SOURCES += \
-{% for interface in module.interfaces %}
-    {{interface|lower}}.cpp \
 {% endfor %}
-    plugin.cpp
+
+HEADERS += plugin.h
+SOURCES += plugin.cpp
 
 
 include( generated/generated.pri )

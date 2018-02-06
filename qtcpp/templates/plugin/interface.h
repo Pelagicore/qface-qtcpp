@@ -6,16 +6,35 @@
 #pragma once
 
 #include <QtCore>
+{% if 'item' in interface.tags %}
+#include <QtQuick>
+{% endif %}
+#include "generated/{{module|identifier}}_gen.h"
 
-#include "generated/{{module.module_name|lower}}module.h"
-#include "generated/abstract{{interface|lower}}.h"
-
-class {{class}} : public Abstract{{interface}}
+class {{class}} : public {{interface}}Base
 {
     Q_OBJECT
 public:
-    {{class}}(QObject *parent = nullptr);
+{% if 'item' in interface.tags %}
+    explicit {{class}}(QQuickItem *parent = nullptr);
+{% else %}
+    explicit {{class}}(QObject *parent = nullptr);
+{% endif %}
     virtual ~{{class}}();
-
-    static void registerQmlTypes(const QString& uri, int majorVersion=1, int minorVersion=0);
+public Q_SLOTS:
+{% for operation in interface.operations %}
+    {{ cpp.operation_decl(operation) }}
+{% endfor %}
+public:
+{% for property in interface.properties %}
+    {{ cpp.property_setter_decl(property) }}
+{% endfor %}
+public:
+{% for property in interface.properties %}
+    {{cpp.property_getter_decl(property) }}
+{% endfor %}
+private:
+{% for property in interface.properties %}
+    {{ cpp.property_member_decl(property) }}
+{% endfor %}
 };

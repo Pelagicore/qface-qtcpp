@@ -7,17 +7,6 @@
 
 #include <QtQml>
 
-
-/*!
-    \inqmlmodule {{module}} 1.0
- */
-
-QObject* {{class|lower}}_singletontype_provider(QQmlEngine*, QJSEngine*)
-{
-      return new {{class}}();
-}
-
-
 /*!
    \qmltype {{interface}}
    \inqmlmodule {{module}}
@@ -29,8 +18,12 @@ QObject* {{class|lower}}_singletontype_provider(QQmlEngine*, QJSEngine*)
 */
 
 {{interface.comment}}
-{{class}}::{{class}}(QObject *parent)
-    : Abstract{{interface}}(parent)
+{% if 'item' in interface.tags %}
+    {{class}}::{{class}}(QQuickItem *parent)
+{% else %}
+    {{class}}::{{class}}(QObject *parent)
+{% endif %}
+    : {{interface}}Base(parent)
 {
 }
 
@@ -38,11 +31,13 @@ QObject* {{class|lower}}_singletontype_provider(QQmlEngine*, QJSEngine*)
 {
 }
 
-void {{class}}::registerQmlTypes(const QString& uri, int majorVersion, int minorVersion)
-{
-    {% if 'singleton' in interface.tags %}
-    qmlRegisterSingletonType<{{class}}>(uri.toLatin1(), majorVersion, minorVersion, "{{interface}}", {{class|lower}}_singletontype_provider);
-    {% else %}
-    qmlRegisterType<{{class}}>(uri.toLatin1(), majorVersion, minorVersion, "{{interface}}");
-    {% endif %}
-}
+{% for property in interface.properties %}
+{{ cpp.property_setter_impl(class, property) }}
+
+{{ cpp.property_getter_impl(class, property) }}
+{% endfor %}
+
+{%- for operation in interface.operations %}
+{{ cpp.operation_impl(class, operation) }}
+{% endfor %}
+
