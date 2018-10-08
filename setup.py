@@ -18,9 +18,6 @@ setup(
     keywords='qt cpp generator',
     packages=find_packages(),
     include_package_data=True,
-    package_data={
-        '': ['*.h', '*.cpp', '*.pro', '*.pri', '*.qml', '*.js', '*.j2', '*.qdocconf', '*.conf', 'CMakeLists.txt', 'qmldir']
-    },
     install_requires=[
         'qface>=1.7',
     ],
