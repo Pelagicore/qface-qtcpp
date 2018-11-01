@@ -11,7 +11,6 @@ from qface.helper.doc import parse_doc
 from qface.watch import monitor
 from qface.contrib.logging import setup_log
 
-
 here = Path(__file__).dirname()
 
 

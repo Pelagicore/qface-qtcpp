@@ -67,7 +67,7 @@ class {{class}}
 {
     Q_GADGET
 {% for field in struct.fields %}
-    {{ cpp.property(field, notifiable=False)}}
+    {{ cpp.property_decl(field, notifiable=False)}}
 {% endfor %}
 
 public:
@@ -121,7 +121,7 @@ class {{class}} : public QObject
 {
     Q_OBJECT
 {% for property in interface.properties %}
-    {{ cpp.property(property)}}
+    {{ cpp.property_decl(property)}}
 {% endfor %}
 
 public:

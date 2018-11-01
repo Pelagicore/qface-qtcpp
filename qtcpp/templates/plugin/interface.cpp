@@ -11,9 +11,9 @@
    \qmltype {{interface}}
    \inqmlmodule {{module}}
 {% with doc = interface.comment|parse_doc %}
-   \brief {{doc.brief}}
+   \brief {{doc.brief|join(" ")}}
 
-   {{doc.description}}
+   {{doc.description|join("\n   ")}}
 {% endwith %}
 */
 
