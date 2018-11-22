@@ -25,7 +25,7 @@
             if (ok) {
                 *ok = false;
             }
-            return {{enum|defaultValue}};
+            return {{enum|qt.defaultValue}};
     }
 }
 {% endfor %}
@@ -42,7 +42,7 @@
 
 {{class}}::{{class}}()
 {% for field in struct.fields %}
-{% if loop.first %}    :{% else %}    ,{% endif %} m_{{field}}({{field|defaultValue}})
+{% if loop.first %}    :{% else %}    ,{% endif %} m_{{field}}({{field|qt.defaultValue}})
 {% endfor %}
 {
 }
@@ -81,7 +81,7 @@ QDataStream &operator<<(QDataStream &stream, const {{class}} &obj)
 QDataStream &operator>>(QDataStream &stream, {{class}} &obj)
 {
     {% for field in struct.fields %}
-    {{field|returnType}} {{field}}Value;
+    {{field|qt.returnType}} {{field}}Value;
     stream >> {{field}}Value;
     obj.set{{field|upperfirst}}({{field}}Value);
 

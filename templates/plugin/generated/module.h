@@ -82,7 +82,7 @@ public:
 
 private:
 {% for field in struct.fields %}
-    {{field|returnType}} m_{{field}};
+    {{field|qt.returnType}} m_{{field}};
 {% endfor %}
 };
 
@@ -121,7 +121,7 @@ class {{class}} : public QObject
 {
     Q_OBJECT
 {% for property in interface.properties %}
-    {{ cpp.property(property)}}
+    {{ cpp.property_decl(property)}}
 {% endfor %}
 
 public:
