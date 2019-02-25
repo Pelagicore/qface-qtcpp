@@ -2,7 +2,7 @@
 
 The reference QtCPP generator for qface.
 
-It uses the face executable to run the code geenrator.
+It uses the face executable to run the code generator.
 
 ## Install
 
@@ -13,13 +13,13 @@ It uses the face executable to run the code geenrator.
 
 You run the generator by using the qface executbale and passing in the qface.yml document as specification.
 
-    qface --spec qface-qtcpp/qface.yml --dst output sample.qface
+    qface --rules qface-qtcpp/qface.yml --target output sample.qface
 
-This will generate the C++ project inside the oytput folder.
+This will generate the C++ project inside the output folder.
 
 
 ## Help
 
-For help use th qface executable
+For help use the qface executable
 
     qface --help
